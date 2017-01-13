@@ -4,5 +4,5 @@ The Sudoku projects is an application developed to solve Sudoku puzzles. The pro
 performance differences between various algorithms.
 
 Authors:
- Jakub Młynarczyk
- Jędrzej Szczepaniak
+ * Jakub Młynarczyk
+ * Jędrzej Szczepaniak
