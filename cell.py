@@ -15,7 +15,7 @@ class Cell(object):
 
   @value.setter
   def value(self, v):
-      if not (re.match('^\d$', v)):
+      if not (re.match('^\d$', str(v))):
         raise NotValidCell("Value must single digit.")
       self._value = v
 
@@ -24,11 +24,3 @@ class Cell(object):
 
   def set(self, value):
     self.value = value
-
-if __name__ == '__main__':
-  c = Cell('1')
-  c.value = '2'
-  c.unset()
-  c.set('1')
-  print(c.value)
-
