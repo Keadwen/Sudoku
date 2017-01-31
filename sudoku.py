@@ -31,8 +31,8 @@ class Sudoku(object):
       Args:
         num: An integer, represents an index value.
       """
-      if num == 0: return 0
-      if num == 1: return 3
+      if num/3 == 0: return 0
+      if num/3 == 1: return 3
       return 6
 
     lc = _low_index(position.col)
