@@ -3,12 +3,18 @@ import sudoku
 import cell
 
 class TestSudoku(unittest.TestCase):
-
-  def testSudokuCreation(self):
+  def setUp(self):
+    values = [
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [4, 5, 6, 7, 8, 9, 1, 2, 3],
+        [7, 8, 9, 1, 2, 3, 4, 5, 6],
+        [2, 3, 4, 5, 6, 7, 8, 9, 1],
+        [5, 6, 7, 8, 9, 1, 2, 3, 4],
+        [8, 9, 1, 2, 3, 4, 5, 6, 7],
+        [3, 4, 5, 6, 7, 8, 9, 1, 2],
+        [6, 7, 8, 9, 1, 2, 3, 4, 5],
+        [9, 1, 2, 3, 4, 5, 6, 7, 8]]
     s = sudoku.Sudoku()
-    my_cell = cell.Cell(3)
-    s.set(my_cell, sudoku.Position(row=0,col=0))
-    self.assertEqual(s.grid[0][0], my_cell)
 
 if __name__ == '__main__':
   unittest.main()

@@ -37,11 +37,43 @@ class Sudoku(object):
 
     lc = _low_index(position.col)
     lr = _low_index(position.row)
-    return [grid[r][lc:lc+2] for r in range(lr, lr+2)]
-
+    return [self.grid[r][lc:lc+3] for r in range(lr, lr+3)]
 
   def get_row(self, position):
     return self.grid[position.row]
 
   def get_column(self, position):
-    return [self.grid[position.row][col] for col in range(0,9)]
+    return [self.grid[position.row][col] for col in range(0, 9)]
+
+  def _valid_squares(self):
+    squares = [self.get_square(Position(r, c)) for r in [0, 3, 6] for c in [0, 3, 6]]
+    print(len(squares))
+    for s in squares:
+      print(s)
+      print(set(s))
+      if len(set(s)) != len(s):
+        return False
+    return True
+
+  def _valid_columns(self):
+    for col in range(9):
+      uniques = set()
+      for row in range(9):
+        if self.grid[row][col] in uniques:
+          return False
+        uniques.add(self.grid[row][col])
+    return True
+
+  def _valid_rows(self):
+    for row in range(9):
+      uniques = set()
+      for col in range(9):
+        if self.grid[row][col] in uniques:
+          return False
+        uniques.add(self.grid[row][col])
+    return True
+
+  def is_valid(self):
+    return (self._valid_rows() and self._valid_columns())
+      # and
+      #       self._valid_squares())
