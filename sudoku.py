@@ -10,7 +10,7 @@ class NotUsed(Exception):
 
 class Sudoku(object):
   def __init__(self):
-    self.grid = [[ None  for _ in range(9)] for _ in range(9)]
+    self.grid = [[None for _ in range(9)] for _ in range(9)]
 
   def set(self, cell, position):
     if self.grid[position.row][position.col]:
@@ -23,3 +23,25 @@ class Sudoku(object):
       raise AlreadyUsed('Position row:{} col:{} is already empty'.format(position))
 
     self.grid[position.row][position.col] = None
+
+  def get_square(self, position):
+    def _low_index(num):
+      """Returns a starting index for a grid range.
+
+      Args:
+        num: An integer, represents an index value.
+      """
+      if num == 0: return 0
+      if num == 1: return 3
+      return 6
+
+    lc = _low_index(position.col)
+    lr = _low_index(position.row)
+    return [grid[r][lc:lc+2] for r in range(lr, lr+2)]
+
+
+  def get_row(self, position):
+    return self.grid[position.row]
+
+  def get_column(self, position):
+    return [self.grid[position.row][col] for col in range(0,9)]
