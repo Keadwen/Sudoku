@@ -1,79 +1,67 @@
-from collections import namedtuple
+"""Sudoku module represets an interface to create Sudoku grid."""
 
-Position = namedtuple('Position', ["row", "col"])
+class InvalidSudokuException(Exception):
+  """Raises when invalid Sudoku tries to be inserted."""
 
-class AlreadyUsed(Exception):
-  """Used on attempt to overwrite cell."""
-
-class NotUsed(Exception):
-  """Used on attempt to remove non existing cell."""
 
 class Sudoku(object):
+  """Represents a Sudoku grid containing 9x9 matrix of cells."""
+
+  # TODO(jakubm): Check if this is a correct way to init const in class.
+  _SUDOKU_SIZE = 9
+
   def __init__(self):
-    self.grid = [[None for _ in range(9)] for _ in range(9)]
+    self._sudoku = [[] for _ in range(9)]  # 9x9 matrix of cells.
 
-  def set(self, cell, position):
-    if self.grid[position.row][position.col]:
-      raise AlreadyUsed('Position row:{} col:{} is already set'.format(position))
+  class _Cell(object):
+    """Represents Sudoku cell containing a single integer.
 
-    self.grid[position.row][position.col] = cell
+    Attributes:
+      value: An integer, represents a value in a range <1,9>.
+      mutable: A boolean, if true then a value can be changed.
+    """
+    _LOWER_BOUND = 1
+    _UPPER_BOUND = 9
 
-  def unset(self, position):
-    if not self.grid[position.row][position.col]:
-      raise AlreadyUsed('Position row:{} col:{} is already empty'.format(position))
+    def __init__(self, value=None, mutable=True):
+      self._value = value
+      self._mutable = mutable
 
-    self.grid[position.row][position.col] = None
+    def set(self, value):
+      """Sets a value to a cell, if the cell is mutable and in valid range."""
+      if self._mutable and value >= _LOWER_BOUND and value <=_UPPER_BOUND:
+        self._value = value
 
-  def get_square(self, position):
-    def _low_index(num):
-      """Returns a starting index for a grid range.
+    def get(self, value):
+      """Returns a current value of a cell."""
+      return self._value
 
-      Args:
-        num: An integer, represents an index value.
-      """
-      if num/3 == 0: return 0
-      if num/3 == 1: return 3
-      return 6
+    def __repr__(self):
+      return "{}".format(self._value)
 
-    lc = _low_index(position.col)
-    lr = _low_index(position.row)
-    return [self.grid[r][lc:lc+3] for r in range(lr, lr+3)]
 
-  def get_row(self, position):
-    return self.grid[position.row]
+  def insert(self, grid):
+    """Insert takes 9x9 integer grid and converts to internal structure.
 
-  def get_column(self, position):
-    return [self.grid[position.row][col] for col in range(0, 9)]
+    Args:
+      grid: A two-dimensional list of integers, represents a Sudoku grid.
+    
+    Raises:
+      sudoku.InvalidSudoku error, if incorrect grid has been provided.
+    """
+    
+    # Validates if grid contains correct amount of rows.
+    if len(grid) != self._SUDOKU_SIZE:
+      raise InvalidSudokuException(
+          "invalid length ({}), expected ({}).".format(len(grid), _GRID_SIZE))
+    
+    for ri, row in enumerate(grid):
+      # Validates if grid contains correct amount of columns.
+      if len(row) != self._SUDOKU_SIZE:
+        raise InvalidSudokuException(
+            "invalid length ({}), expected ({}).".format(len(row), _GRID_SIZE))
 
-  def _valid_squares(self):
-    squares = [self.get_square(Position(r, c)) for r in [0, 3, 6] for c in [0, 3, 6]]
-    print(len(squares))
-    for s in squares:
-      print(s)
-      print(set(s))
-      if len(set(s)) != len(s):
-        return False
-    return True
-
-  def _valid_columns(self):
-    for col in range(9):
-      uniques = set()
-      for row in range(9):
-        if self.grid[row][col] in uniques:
-          return False
-        uniques.add(self.grid[row][col])
-    return True
-
-  def _valid_rows(self):
-    for row in range(9):
-      uniques = set()
-      for col in range(9):
-        if self.grid[row][col] in uniques:
-          return False
-        uniques.add(self.grid[row][col])
-    return True
-
-  def is_valid(self):
-    return (self._valid_rows() and self._valid_columns())
-      # and
-      #       self._valid_squares())
+      for ci, col in enumerate(row):
+        # For non-zero values, set a Cell as inmutable.
+        if grid[ri][ci]:
+          self._sudoku[ri].append(self._Cell(grid[ri][ci], False))
