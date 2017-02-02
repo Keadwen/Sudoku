@@ -37,7 +37,7 @@ class Sudoku(object):
       return self._value
 
     def __repr__(self):
-      return "{}".format(self._value)
+      return '{}'.format(self._value)
 
 
   def insert(self, grid):
@@ -49,17 +49,17 @@ class Sudoku(object):
     Raises:
       sudoku.InvalidSudoku error, if incorrect grid has been provided.
     """
-    
+
     # Validates if grid contains correct amount of rows.
     if len(grid) != self._SUDOKU_SIZE:
       raise InvalidSudokuException(
-          "invalid length ({}), expected ({}).".format(len(grid), _GRID_SIZE))
+          'invalid length ({}), expected ({}).'.format(len(grid), _GRID_SIZE))
     
     for ri, row in enumerate(grid):
       # Validates if grid contains correct amount of columns.
       if len(row) != self._SUDOKU_SIZE:
         raise InvalidSudokuException(
-            "invalid length ({}), expected ({}).".format(len(row), _GRID_SIZE))
+            'invalid length ({}), expected ({}).'.format(len(row), _GRID_SIZE))
 
       for ci, col in enumerate(row):
         # For non-zero values, set a Cell as inmutable.
