@@ -29,7 +29,7 @@ class Sudoku(object):
 
     def set(self, value):
       """Sets a value to a cell, if the cell is mutable and in valid range."""
-      if self._mutable and value >= _LOWER_BOUND and value <=_UPPER_BOUND:
+      if self._mutable and value >= _LOWER_BOUND and value <= _UPPER_BOUND:
         self._value = value
 
     def get(self, value):
@@ -45,7 +45,7 @@ class Sudoku(object):
 
     Args:
       grid: A two-dimensional list of integers, represents a Sudoku grid.
-    
+
     Raises:
       sudoku.InvalidSudoku error, if incorrect grid has been provided.
     """
@@ -54,7 +54,7 @@ class Sudoku(object):
     if len(grid) != self._SUDOKU_SIZE:
       raise InvalidSudokuException(
           'invalid length ({}), expected ({}).'.format(len(grid), _GRID_SIZE))
-    
+
     for ri, row in enumerate(grid):
       # Validates if grid contains correct amount of columns.
       if len(row) != self._SUDOKU_SIZE:
