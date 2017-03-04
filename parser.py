@@ -30,3 +30,10 @@ def from_string(sudoku_str):
   s = sudoku.Sudoku()
   s.insert(grid)
   return s
+
+def from_file(file):
+
+  with open(file, 'r') as f:
+    content = f.read()
+
+  return from_string(content)
