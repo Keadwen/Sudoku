@@ -23,6 +23,7 @@ def from_string(sudoku_str):
   grid =  [[None for i in range(9)] for j in range(9)]
 
   for idx, val in enumerate(sudoku_str):
+    # TODO Jedrzej validate val as 0-9
     row_idx = idx // 9
     col_idx = idx % 9
     grid[row_idx][col_idx] = val
