@@ -4,6 +4,17 @@ class IncorrectLengthException(Exception):
     """Used when from_string parser gets string  with wrong size"""
 
 def from_string(sudoku_str):
+  """Parses string into sudoku object.
+
+  Args:
+    sudoku_str: string representing consecutive values of sudoku
+
+  Returns:
+    A sudoku.Sudoku object
+
+  Raises:
+    IncorrectLengthException if string of wrong size was provided.
+  """
 
   sudoku_str = ''.join(sudoku_str.split())
   if len(sudoku_str) != 81:
